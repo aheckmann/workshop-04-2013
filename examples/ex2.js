@@ -2,12 +2,15 @@
 // https://github.com/mongodb/node-mongodb-native
 // npm install mongodb
 
-var mongodb = require('mongodb')
+var mongodb = require('mongodb');
 
-mongodb.connect('mongodb://localhost:27017/workshop', function (err, db) {
+var uri = 'mongodb://localhost:27017/workshop';
+
+mongodb.connect(uri, function (err, db) {
   if (err) throw err;
 
-  // get a collection - it doesn't matter if it exists already or not
+  // get a collection - it doesn't matter if it
+  // exists already or not
   var phones = db.collection('cellphones');
 
   // create an object to insert into the database
@@ -33,7 +36,11 @@ mongodb.connect('mongodb://localhost:27017/workshop', function (err, db) {
     console.log('updating a document');
 
     // increment the "purchased" property by one
-    phones.update({ _id: doc._id }, { $inc: { purchased: 1 }}, function (err) {
+    var update = {
+        $inc: { purchased: 1 }
+    };
+
+    phones.update({ _id: doc._id }, update, function (err) {
       if (err) return done(err);
       drop();
     })
